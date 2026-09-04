@@ -1,0 +1,10 @@
+# Only one real dependency, and only for one code path.
+#
+# av (PyAV) decodes a video file for Ember Video Frame. It is NOT needed when that
+# node is fed frames from a batch loader instead of a filename — the import sits
+# inside the file-reading branch on purpose, so a ComfyUI without PyAV still loads
+# this pack and every other node works.
+#
+# numpy and torch are deliberately absent: ComfyUI cannot run without them, and
+# pinning them here is how a custom node pack picks a fight with the host install.
+av>=10.0.0
