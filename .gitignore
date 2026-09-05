@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# YuNet weights, fetched on first run
+.model_cache/

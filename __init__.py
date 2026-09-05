@@ -5,16 +5,18 @@ They exist so a workflow built here can be handed to someone else and just run â
 a graph that references a licensed third-party pack is not portable, however
 harmless the individual nodes are.
 
-Nothing here calls out to a network. If a node in this pack ever needs to, that
-is worth arguing about first.
+Nothing here calls out to a network at RUN time. One exception, argued and
+documented rather than slipped in: Ember Face Mask fetches OpenCV's YuNet weights
+(~350KB) the first time it runs and caches them thereafter. Point its model_path at
+a local file and even that stops.
 """
 
-from .nodes import h3_frame_snap, resolution_mp, audio_switch, video_frame
+from .nodes import h3_frame_snap, resolution_mp, audio_switch, video_frame, face_mask
 
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}
 
-for _mod in (h3_frame_snap, resolution_mp, audio_switch, video_frame):
+for _mod in (h3_frame_snap, resolution_mp, audio_switch, video_frame, face_mask):
     NODE_CLASS_MAPPINGS.update(_mod.NODE_CLASS_MAPPINGS)
     NODE_DISPLAY_NAME_MAPPINGS.update(_mod.NODE_DISPLAY_NAME_MAPPINGS)
 
