@@ -24,6 +24,15 @@ The pack also registers the `beta57` scheduler, so RES4LYF is not needed for the
 Known behaviour kept from the originals: Camera Look noise above 0 is unseeded; Renoise
 grain differs between GPU and CPU for the same seed.
 
+**Live preview on Ember Resolution (MP)** (`js/ember_resolution_mp.js`): a read-only line
+under the widgets, in the same format as the AIORBust node:
+`1600 x 2784  ·  4.454 MP (+0.1%)  ·  0.5747`. It updates as megapixels, aspect_ratio or
+multiple_of change. When the ratio comes from the image, or a widget is driven by a link,
+it says "computed at run time" instead of guessing. The line is never saved: the node
+still stores exactly 3 `widgets_values` and sends 3 inputs. The browser maths is tested
+against the Python node over 79,464 widget combinations with 0 differences, and 6 planted
+bugs are all caught (`tests/resolution_preview/run.sh`, needs python3 + node).
+
 ⚠️ `EmberResolutionMP` changed on 2026-09-15: it now matches Aiorbust Resolution (MP)
 exactly (the earlier algorithm differed on ~19% of sizes and lacked 5:4 / 4:5).
 

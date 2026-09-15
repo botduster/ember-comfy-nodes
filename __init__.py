@@ -30,6 +30,9 @@ from .ember_nodes import (
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}
 
+# Front-end extensions (the live preview line on Ember Resolution (MP)).
+WEB_DIRECTORY = "./js"
+
 for _mod in (h3_frame_snap, audio_switch, video_frame, face_mask,
              resolution_mp, save_image_no_metadata, camera_look, renoise, bbox_detector, detailer):
     NODE_CLASS_MAPPINGS.update(_mod.NODE_CLASS_MAPPINGS)
@@ -41,4 +44,4 @@ try:
 except Exception as exc:  # a scheduler-registry change upstream must not take the whole pack down
     logging.warning("[Ember nodes] could not register beta57: %s", exc)
 
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
