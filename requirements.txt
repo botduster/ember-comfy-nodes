@@ -8,3 +8,10 @@
 # numpy and torch are deliberately absent: ComfyUI cannot run without them, and
 # pinning them here is how a custom node pack picks a fight with the host install.
 av>=10.0.0
+
+# Krea 2 nodes (2026-09-15):
+# ultralytics — Ember HD Ultralytics BBox Loader (bbox/ models, e.g. Eyeful_v2-Paired.pt in models/ultralytics/bbox)
+# kornia — Ember Renoise
+# Ember Detailer also needs the ComfyUI-Impact-Pack custom node installed (git clone, see README).
+ultralytics
+kornia

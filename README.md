@@ -1,12 +1,52 @@
 # Ember ComfyUI nodes
 
-Four utility nodes, rebuilt so a workflow can be shared without the recipient
+Ember's own ComfyUI nodes, rebuilt so a workflow can be shared without the recipient
 needing anyone else's licensed pack installed.
+
+## Krea 2 workflow nodes (added 2026-09-15)
+
+Six nodes that replace the AIORBust nodes in the Krea 2 workflows. Widget names, order,
+defaults and limits match, so in a UI workflow you can change a node's `type` to the
+Ember id and keep its `widgets_values`. Proven bit-identical to the originals on CPU and
+on a GPU with the real Krea 2 model (evidence: `botduster/krea2-t2i-serverless`,
+`tests/ember_nodes/`). Full widget table: `NODE_SPEC.md`.
+
+| Ember node (menu `Ember/…`) | Replaces |
+|---|---|
+| Ember Resolution (MP) `EmberResolutionMP` | Aiorbust Resolution (MP) |
+| Ember Save Image (No Metadata) `EmberSaveImageNoMetadata` | Aiorbust Save Image No Metadata |
+| Ember Camera Look `EmberCameraLook` | Aiorbust Camera Look |
+| Ember Renoise `EmberRenoise` | Aiorbust Renoïse |
+| Ember HD Ultralytics BBox Loader `EmberHDBBoxDetectorProvider` | Aiorbust HD Ultralytic BBox Loader (bbox/ models only) |
+| Ember Detailer `EmberDetailer` | Aiorbust Detailer and Aiorbust Eye Detailer |
+
+The pack also registers the `beta57` scheduler, so RES4LYF is not needed for these graphs.
+Known behaviour kept from the originals: Camera Look noise above 0 is unseeded; Renoise
+grain differs between GPU and CPU for the same seed.
+
+⚠️ `EmberResolutionMP` changed on 2026-09-15: it now matches Aiorbust Resolution (MP)
+exactly (the earlier algorithm differed on ~19% of sizes and lacked 5:4 / 4:5).
+
+### Install on a RunPod pod (ComfyUI at /workspace/ComfyUI)
+
+```bash
+cd /workspace/ComfyUI/custom_nodes
+git clone https://github.com/botduster/ember-comfy-nodes.git
+git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git   # needed by Ember Detailer (skip if present)
+pip install -r ember-comfy-nodes/requirements.txt
+pip install -r ComfyUI-Impact-Pack/requirements.txt
+# Eyeful bbox model for the eye detailer:
+mkdir -p /workspace/ComfyUI/models/ultralytics/bbox   # put Eyeful_v2-Paired.pt here
+# then restart ComfyUI
+```
+
+Update later with `cd /workspace/ComfyUI/custom_nodes/ember-comfy-nodes && git pull`.
+
+## Utility nodes
 
 | Node | Does |
 |---|---|
 | **Ember H3 Frame Snap** | Snaps a frame count onto a length MiniMax H3 accepts |
-| **Ember Resolution (MP)** | Megapixel budget + aspect ratio → snapped width/height |
 | **Ember Audio Switch** | Include or drop an audio track without rewiring |
 | **Ember Video Frame** | One frame out of a video file or a connected batch |
 

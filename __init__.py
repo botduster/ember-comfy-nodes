@@ -11,13 +11,34 @@ documented rather than slipped in: Ember Face Mask fetches OpenCV's YuNet weight
 a local file and even that stops.
 """
 
-from .nodes import h3_frame_snap, resolution_mp, audio_switch, video_frame, face_mask
+import logging
+
+from .nodes import h3_frame_snap, audio_switch, video_frame, face_mask
+# Krea 2 workflow nodes (2026-09-15): Ember's own versions of the six AIORBust nodes, proven
+# bit-identical on CPU and GPU (evidence: botduster/krea2-t2i-serverless tests/ember_nodes).
+# EmberResolutionMP now lives here and matches "Aiorbust Resolution (MP)" exactly; the older
+# nodes/resolution_mp.py algorithm was removed so the id means one thing.
+from .ember_nodes import (
+    bbox_detector,
+    camera_look,
+    detailer,
+    renoise,
+    resolution_mp,
+    save_image_no_metadata,
+)
 
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}
 
-for _mod in (h3_frame_snap, resolution_mp, audio_switch, video_frame, face_mask):
+for _mod in (h3_frame_snap, audio_switch, video_frame, face_mask,
+             resolution_mp, save_image_no_metadata, camera_look, renoise, bbox_detector, detailer):
     NODE_CLASS_MAPPINGS.update(_mod.NODE_CLASS_MAPPINGS)
     NODE_DISPLAY_NAME_MAPPINGS.update(_mod.NODE_DISPLAY_NAME_MAPPINGS)
+
+try:
+    from .ember_nodes.schedulers import register_beta57
+    register_beta57()
+except Exception as exc:  # a scheduler-registry change upstream must not take the whole pack down
+    logging.warning("[Ember nodes] could not register beta57: %s", exc)
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

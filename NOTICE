@@ -1,0 +1,6 @@
+Third-party provenance
+
+ember_nodes/detailer.py (Ember Detailer) is derived from ComfyUI-Impact-Pack by Dr.Lt.Data,
+licensed GPL-3.0 (https://github.com/ltdrdata/ComfyUI-Impact-Pack), version 8.28.3, and calls
+that pack's internals at run time. That file and its derivative work are distributed under the
+GNU General Public License v3.0. The rest of this repository is Ember's own code.
