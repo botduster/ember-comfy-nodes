@@ -27,20 +27,23 @@ grain differs between GPU and CPU for the same seed.
 ⚠️ `EmberResolutionMP` changed on 2026-09-15: it now matches Aiorbust Resolution (MP)
 exactly (the earlier algorithm differed on ~19% of sizes and lacked 5:4 / 4:5).
 
-### Install on a RunPod pod (ComfyUI at /workspace/ComfyUI)
+### Install on a RunPod pod
 
 ```bash
-cd /workspace/ComfyUI/custom_nodes
+C=/workspace/ComfyUI; [ -d "$C" ] || C=/ComfyUI     # /workspace only when a network volume is attached
+cd "$C/custom_nodes"
 git clone https://github.com/botduster/ember-comfy-nodes.git
-git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git   # needed by Ember Detailer (skip if present)
-pip install -r ember-comfy-nodes/requirements.txt
-pip install -r ComfyUI-Impact-Pack/requirements.txt
-# Eyeful bbox model for the eye detailer:
-mkdir -p /workspace/ComfyUI/models/ultralytics/bbox   # put Eyeful_v2-Paired.pt here
+[ -d ComfyUI-Impact-Pack ] || git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git   # needed by Ember Detailer
+python3 -m pip install -r ember-comfy-nodes/requirements.txt       # use the Python ComfyUI runs with (e.g. /opt/venv)
+python3 -m pip install -r ComfyUI-Impact-Pack/requirements.txt
+mkdir -p "$C/models/ultralytics/bbox"   # Eyeful_v2-Paired.pt goes here (the file the AIORBust eye detailer used)
 # then restart ComfyUI
 ```
 
-Update later with `cd /workspace/ComfyUI/custom_nodes/ember-comfy-nodes && git pull`.
+Bit-identical output was proven on ComfyUI v0.27.0 + Impact Pack 8.28.3. On newer stacks, run one
+workflow with the original and Ember nodes side by side once to confirm.
+
+Update later with `cd "$C/custom_nodes/ember-comfy-nodes" && git pull`.
 
 ## Utility nodes
 
