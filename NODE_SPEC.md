@@ -130,5 +130,5 @@ Widgets, in order:
 Link inputs: none
 Outputs: `sampler` (SAMPLER)
 
-`base_sampler` lists ComfyUI's `comfy.k_diffusion.sampling.sample_*` solvers minus dpm_fast, dpm_adaptive and lcm, read at run time (42 on ComfyUI v0.34.6), exactly as the reference node does.
+`base_sampler` lists ComfyUI's `comfy.k_diffusion.sampling.sample_*` solvers minus dpm_fast, dpm_adaptive and lcm, read when ComfyUI loads the node's inputs (42 on ComfyUI v0.34.6), exactly as the reference node does.
 
