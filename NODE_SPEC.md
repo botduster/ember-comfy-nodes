@@ -109,3 +109,26 @@ Widgets, in order:
 
 Link inputs: `image` (IMAGE), `model` (MODEL), `clip` (CLIP), `vae` (VAE), `positive` (CONDITIONING), `negative` (CONDITIONING), `bbox_detector` (BBOX_DETECTOR, optional), `segs` (SEGS, optional), `sam_model_opt` (SAM_MODEL, optional), `segm_detector_opt` (SEGM_DETECTOR, optional), `detailer_hook` (DETAILER_HOOK, optional), `scheduler_func_opt` (SCHEDULER_FUNC, optional)
 Outputs: `image` (IMAGE), `cropped_refined` (IMAGE), `cropped_enhanced_alpha` (IMAGE), `mask` (MASK), `detailer_pipe` (DETAILER_PIPE), `cnet_images` (IMAGE)
+
+## `EmberSpeedHDSampler` - Ember Speed HD Sampler
+
+Widgets, in order:
+
+| # | widget | type | details | section |
+|---|---|---|---|---|
+| 1 | `base_sampler` | COMBO | default `euler`; options: `ar_video`, `ddpm`, `deis`, `dpm_2`, `dpm_2_ancestral`, `dpm_2_ancestral_RF`, `…`, `(42 options)` | required |
+| 2 | `transform` | COMBO | default `dct`; options: `dct`, `dwt`, `fft` | required |
+| 3 | `mode` | COMBO | default `delta_optimal`; options: `delta_optimal`, `manual` | required |
+| 4 | `model_preset` | COMBO | default `flux`; options: `flux`, `wan21`, `custom` | required |
+| 5 | `scales` | STRING | default `0.5,1.0` | required |
+| 6 | `delta` | FLOAT | default `0.01`; min 0.0001; max 0.5; step 0.001 | required |
+| 7 | `manual_sigmas` | STRING | default `0.85` | required |
+| 8 | `spectrum_A` | FLOAT | default `203.615097`; min 0.0; max 1000000.0; step 0.001 | required |
+| 9 | `spectrum_beta` | FLOAT | default `1.915461`; min 0.0; max 10.0; step 0.001 | required |
+| 10 | `seed` | INT | default `0`; min 0; max 2147483647; step 1 | required |
+
+Link inputs: none
+Outputs: `sampler` (SAMPLER)
+
+`base_sampler` lists ComfyUI's `comfy.k_diffusion.sampling.sample_*` solvers minus dpm_fast, dpm_adaptive and lcm, read at run time (42 on ComfyUI v0.34.6), exactly as the reference node does.
+

@@ -5,11 +5,13 @@ needing anyone else's licensed pack installed.
 
 ## Krea 2 workflow nodes (added 2026-09-15)
 
-Six nodes that replace the AIORBust nodes in the Krea 2 workflows. Widget names, order,
+Seven nodes that replace the AIORBust nodes in the Krea 2 workflows. Widget names, order,
 defaults and limits match, so in a UI workflow you can change a node's `type` to the
-Ember id and keep its `widgets_values`. Proven bit-identical to the originals on CPU and
-on a GPU with the real Krea 2 model (evidence: `botduster/krea2-t2i-serverless`,
-`tests/ember_nodes/`). Full widget table: `NODE_SPEC.md`.
+Ember id and keep its `widgets_values`. The first six are proven bit-identical to the
+originals on CPU and on a GPU with the real Krea 2 model (evidence:
+`botduster/krea2-t2i-serverless`, `tests/ember_nodes/`). Ember Speed HD Sampler is proven
+bit-identical on CPU (`tests/speed_hd_sampler/`, below); its GPU run with the real model is
+still to do. Full widget table: `NODE_SPEC.md`.
 
 | Ember node (menu `Ember/…`) | Replaces |
 |---|---|
@@ -19,6 +21,21 @@ on a GPU with the real Krea 2 model (evidence: `botduster/krea2-t2i-serverless`,
 | Ember Renoise `EmberRenoise` | Aiorbust Renoïse |
 | Ember HD Ultralytics BBox Loader `EmberHDBBoxDetectorProvider` | Aiorbust HD Ultralytic BBox Loader (bbox/ models only) |
 | Ember Detailer `EmberDetailer` | Aiorbust Detailer and Aiorbust Eye Detailer |
+| Ember Speed HD Sampler `EmberSpeedHDSampler` (added 2026-09-16) | Aiorbust Speed HD Sampler |
+
+**No AIORBust node left in the Krea V3 T2I graph.** In the V3 graph as run on 2026-09-16
+(already using the six nodes above), `AiorbustSpeedHDSampler` was the only AIORBust class.
+With Ember Speed HD Sampler swapped in, that graph no longer needs
+`public-aiorbust-nodes-pack`. It still needs the other packs it uses (RvTools, CRT,
+FameGridColorFinish, RealismInjector, SkinDetailer, MoreJPEG, LayerStyle, KJNodes, rgthree).
+
+**Swapping in Ember Speed HD Sampler.** It sits inside the "Speed Spectral Diff. High Res"
+subgraph, so edit the node there. Change `type` from `AiorbustSpeedHDSampler` to
+`EmberSpeedHDSampler` and keep all 11 `widgets_values`: the 10 widgets, plus
+`control_after_generate` after `seed`. The links to `base_sampler` and `spectrum_beta` stay
+as they are. In an API graph, change `class_type`; the inputs do not change. `transform = dwt`
+needs PyWavelets, which is in `requirements.txt`. The noise added when the latent grows is
+computed in numpy on the CPU, the same as the original.
 
 The pack also registers the `beta57` scheduler, so RES4LYF is not needed for these graphs.
 Known behaviour kept from the originals: Camera Look noise above 0 is unseeded; Renoise
@@ -52,7 +69,39 @@ mkdir -p "$C/models/ultralytics/bbox"   # Eyeful_v2-Paired.pt goes here (the fil
 Bit-identical output was proven on ComfyUI v0.27.0 + Impact Pack 8.28.3. On newer stacks, run one
 workflow with the original and Ember nodes side by side once to confirm.
 
-Update later with `cd "$C/custom_nodes/ember-comfy-nodes" && git pull`.
+Update later with `cd "$C/custom_nodes/ember-comfy-nodes" && git pull`, then restart ComfyUI.
+
+### Ember Speed HD Sampler: CPU equivalence test
+
+```bash
+git clone https://github.com/aiorbust-jy/public-aiorbust-nodes-pack && git -C public-aiorbust-nodes-pack checkout 0ffd558
+PYTHON=/path/to/comfyui/python tests/speed_hd_sampler/run.sh <ComfyUI dir> public-aiorbust-nodes-pack --mutants
+```
+
+Both nodes run in one process, through the same call that SamplerCustomAdvanced makes, with a
+small deterministic fake model. Compared exactly (dtype, shape, stride, `torch.equal` and
+byte for byte):
+- every latent and sigma slice passed to the base solver, including the grown latent with its
+  noise and the aligned sigma;
+- every model call and progress callback;
+- the sampled latent;
+- the global RNG states;
+- raised exceptions.
+
+Coverage:
+- Wyatt's V3 graph settings on the full 1600x2784 latent.
+- Every transform x mode x preset x 5 scale lists x 4 latent shapes.
+- Edge values of delta, spectrum_A/beta, seed, scales and manual_sigmas (including invalid ones).
+- 7 schedules.
+- All 42 base solvers.
+- 3 dtypes.
+
+The reference also runs twice, as a noise floor. `mutants.py` plants 18 single-point bugs,
+and the test must catch each one.
+
+Result on 2026-09-16 (ComfyUI v0.34.6, torch 2.14.0, numpy 2.2.6, scipy 1.15.3, PyWavelets
+1.8.0, the pod's versions): 755 checks, 0 mismatches, floor 0, 18/18 mutants caught
+(`tests/speed_hd_sampler/results/`).
 
 ## Utility nodes
 

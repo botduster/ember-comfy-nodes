@@ -1,0 +1,331 @@
+{
+  "control_pass": true,
+  "mutants": 18,
+  "caught": 18,
+  "results": [
+    {
+      "label": "seed offset: k*10000 instead of (k+1)*10000",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113599 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "scales order: transitions zip (to, from) instead of (from, to)",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.2
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$: keys ['sampler', 'out', 'log', 'sigmas_after', 'sigmas_unchanged', 'torch_rng', 'numpy_rng'] != ['sampler', 'error', 'log', 'sigmas_after', 'sigmas_unchanged', 'torch_rng', 'numpy_rng']"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "delta off by one step: transition one step late",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113599 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "aligned sigma not written back",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113600 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "kappa uses (1 - t)",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113600 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "nyquist from the longer side",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113599 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "FFT noise scaled by math.sqrt (keeps complex64) instead of np.sqrt",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 249,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.9
+      },
+      "first_failure": {
+        "group": "grid",
+        "case": "fft/delta_optimal/flux/0.5,1.0/(2, 4, 32, 24)",
+        "diff": "$.out: values differ (3531 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "DWT detail bands swapped (LH <-> HL)",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.out: values differ (1113599 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "DCT noise left in float64",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 8,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.0
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "node defaults",
+        "diff": "$.out: values differ (648890 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "grown size truncates instead of round()",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 15,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.1
+      },
+      "first_failure": {
+        "group": "grid",
+        "case": "dct/delta_optimal/flux/0.25,0.5,1.0/(1, 4, 31, 23)",
+        "diff": "$.out: values differ (2852 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "initial shrink truncates instead of round()",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 11,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.1
+      },
+      "first_failure": {
+        "group": "grid",
+        "case": "dct/delta_optimal/flux/0.5,1.0/(1, 4, 31, 23)",
+        "diff": "$.out: values differ (2852 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "video fold without the frame/channel permute",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 10,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.0
+      },
+      "first_failure": {
+        "group": "grid",
+        "case": "dct/delta_optimal/flux/0.5,1.0/(1, 4, 2, 24, 16)",
+        "diff": "$.out: values differ (3072 elements)"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "progress callback not offset per segment",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 5,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.3
+      },
+      "first_failure": {
+        "group": "graph_3933479f",
+        "case": "API widgets, 1600x2784 latent, shift 6 simple 8",
+        "diff": "$.log[9][1]: 3 != 0"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "NaN scale rejected (reference lets it through)",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 390,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 2.9
+      },
+      "first_failure": {
+        "group": "edges",
+        "case": "dct: scales='nan'",
+        "diff": "$: keys ['sampler', 'out', 'log', 'sigmas_after', 'sigmas_unchanged', 'torch_rng', 'numpy_rng'] != ['error', 'torch_rng']"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "manual_sigmas length check allows extra values",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 414,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 3.0
+      },
+      "first_failure": {
+        "group": "edges",
+        "case": "dct: manual '0.95,0.85' scales '0.5,1.0'",
+        "diff": "$: keys ['sampler', 'error', 'log', 'sigmas_after', 'sigmas_unchanged', 'torch_rng', 'numpy_rng'] != ['sampler', 'out', 'log', 'sigmas_after', 'sigmas_unchanged', 'torch_rng', 'numpy_rng']"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "wan21 preset beta rounded",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 29,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 1.1
+      },
+      "first_failure": {
+        "group": "grid",
+        "case": "dct/delta_optimal/wan21/0.5,1.0/(2, 4, 32, 24)",
+        "diff": "$.sampler[2].spectrum_beta: 2.422687 != 2.42269"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "seed widget max 2**32-1",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 1,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.0
+      },
+      "first_failure": {
+        "group": "interface",
+        "case": "INPUT_TYPES (tooltips excluded)",
+        "diff": "$.required.seed[1].max: 2147483647 != 4294967295"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    },
+    {
+      "label": "lcm offered as a base sampler",
+      "exit": 1,
+      "summary": {
+        "result": "FAIL",
+        "checks": 1,
+        "mismatches": 1,
+        "floor_mismatches": 0,
+        "seconds": 0.0
+      },
+      "first_failure": {
+        "group": "interface",
+        "case": "INPUT_TYPES (tooltips excluded)",
+        "diff": "$.required.base_sampler[0]: length 42 != 43"
+      },
+      "stderr_tail": null,
+      "status": "CAUGHT"
+    }
+  ]
+}

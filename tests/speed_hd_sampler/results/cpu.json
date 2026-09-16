@@ -1,0 +1,246 @@
+{
+  "result": "PASS",
+  "checks": 755,
+  "mismatches": 0,
+  "floor_mismatches": 0,
+  "groups": {
+    "interface": {
+      "checks": 4,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 0
+    },
+    "graph_3933479f": {
+      "checks": 4,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 0
+    },
+    "grid": {
+      "checks": 360,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 42
+    },
+    "edges": {
+      "checks": 168,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 73
+    },
+    "schedules": {
+      "checks": 126,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 0
+    },
+    "solvers": {
+      "checks": 84,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 14
+    },
+    "dtypes": {
+      "checks": 9,
+      "mismatches": 0,
+      "floor_mismatches": 0,
+      "errors_matched": 0
+    }
+  },
+  "graph_facts": {
+    "API widgets, 1600x2784 latent, shift 6 simple 8": {
+      "solver_segments": [
+        [
+          [
+            1,
+            16,
+            1,
+            174,
+            100
+          ],
+          [
+            1.0,
+            0.976744,
+            0.947368,
+            0.909091
+          ]
+        ],
+        [
+          [
+            1,
+            16,
+            1,
+            348,
+            200
+          ],
+          [
+            0.952381,
+            0.857143,
+            0.782609,
+            0.666667,
+            0.461538,
+            0.0
+          ]
+        ]
+      ],
+      "output_shape": [
+        1,
+        16,
+        1,
+        348,
+        200
+      ],
+      "error": null
+    },
+    "UI widgets_values (spectrum_beta 1.37)": {
+      "solver_segments": [
+        [
+          [
+            1,
+            16,
+            1,
+            174,
+            100
+          ],
+          [
+            1.0,
+            0.976744,
+            0.947368,
+            0.909091
+          ]
+        ],
+        [
+          [
+            1,
+            16,
+            1,
+            348,
+            200
+          ],
+          [
+            0.952381,
+            0.857143,
+            0.782609,
+            0.666667,
+            0.461538,
+            0.0
+          ]
+        ]
+      ],
+      "output_shape": [
+        1,
+        16,
+        1,
+        348,
+        200
+      ],
+      "error": null
+    },
+    "no progress callback": {
+      "solver_segments": [
+        [
+          [
+            1,
+            16,
+            1,
+            174,
+            100
+          ],
+          [
+            1.0,
+            0.976744,
+            0.947368,
+            0.909091
+          ]
+        ],
+        [
+          [
+            1,
+            16,
+            1,
+            348,
+            200
+          ],
+          [
+            0.952381,
+            0.857143,
+            0.782609,
+            0.666667,
+            0.461538,
+            0.0
+          ]
+        ]
+      ],
+      "output_shape": [
+        1,
+        16,
+        1,
+        348,
+        200
+      ],
+      "error": null
+    },
+    "node defaults": {
+      "solver_segments": [
+        [
+          [
+            1,
+            16,
+            1,
+            174,
+            100
+          ],
+          [
+            1.0,
+            0.976744,
+            0.947368,
+            0.909091,
+            0.857143,
+            0.782609,
+            0.666667
+          ]
+        ],
+        [
+          [
+            1,
+            16,
+            1,
+            348,
+            200
+          ],
+          [
+            0.8,
+            0.461538,
+            0.0
+          ]
+        ]
+      ],
+      "output_shape": [
+        1,
+        16,
+        1,
+        348,
+        200
+      ],
+      "error": null
+    }
+  },
+  "failures": [],
+  "seconds": 6.0,
+  "environment": {
+    "python": "3.12.11",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.14.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "pywavelets": "1.8.0",
+    "comfyui": "0.34.6",
+    "reference_commit": "0ffd55810b0945b6d2abd3483341813dffd6bd43",
+    "reference_sha256": {
+      "aiorbust_speed_hd_sampler.py": "a319330ac769c713aad8cbd08be3beabb4084894962555e2bb88536211711015",
+      "speed_hd_core.py": "a03d9a83a811ec641f4f82095b0242345713096b04b6645061aa0d197fe2fa3b",
+      "speed_hd_spectral_utils.py": "3240d6428b33ebac59ba8707cd187d17ea79fd90f45a3b1ca7d097fe9ec06726"
+    },
+    "ours_sha256": "76dbe9eecbaf07c494f45b2ccf43df81dc75871c46c5c2baf295bcc986e1fd5f"
+  }
+}

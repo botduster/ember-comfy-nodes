@@ -3,4 +3,37 @@ Third-party provenance
 ember_nodes/detailer.py (Ember Detailer) is derived from ComfyUI-Impact-Pack by Dr.Lt.Data,
 licensed GPL-3.0 (https://github.com/ltdrdata/ComfyUI-Impact-Pack), version 8.28.3, and calls
 that pack's internals at run time. That file and its derivative work are distributed under the
-GNU General Public License v3.0. The rest of this repository is Ember's own code.
+GNU General Public License v3.0.
+
+ember_nodes/speed_hd_sampler.py (Ember Speed HD Sampler) implements SPEED, "Spectral Progressive
+Diffusion for Efficient Image and Video Generation" (Xiao, Chao, Yariv & Wetzstein, 2026). Its
+spectral expansion, transition schedule and segmented sampling follow the reference code at
+https://github.com/howardhx/speed (commit ca7801c), licensed MIT:
+
+    MIT License
+
+    Copyright (c) 2026 Howard Xiao
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+One behaviour differs from that reference and is kept to match the node this replaces: the FFT
+transform scales its complex noise by 1/sqrt(2). The Aiorbust Speed HD Sampler credits that change
+to ComfyUI-SPEED-SwarmNeo (MIT, (c) 2026 A. Izzuddin Al Faruq).
+
+The rest of this repository is Ember's own code.
