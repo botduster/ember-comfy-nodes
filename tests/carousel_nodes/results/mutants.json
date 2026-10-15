@@ -1,0 +1,282 @@
+{
+  "caught": 46,
+  "total": 46,
+  "mutants": [
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "bullets not stripped",
+      "status": "caught",
+      "tail": "FAILED (failures=3)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "slide labels not stripped",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "dedupe is case-sensitive",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "cap is 7 not 8",
+      "status": "caught",
+      "tail": "FAILED (failures=3)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "keeps the last N poses",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "too-few error swallowed",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "truncation not on a word",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "JSON 'poses' key ignored",
+      "status": "caught",
+      "tail": "FAILED (errors=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "widget wins over linked pose list",
+      "status": "caught",
+      "tail": "FAILED (errors=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "one-slide mode returns all",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "negatives one short",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "manifest width/height swapped",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "outfit dropped from balanced locks",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "conflicts ignore which locks are on",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "camera warning regardless of mode",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "trigger not stripped",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "pose punctuation doubled",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "cleaning not repeated (not idempotent)",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "slide seeds not offset per slide",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "list output flags wrong",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "YIQ I row typo",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "strength-0 shortcut removed",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "single-pass detection (window stays on the target)",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "uniformity applied inverted",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "rotation sign flipped",
+      "status": "caught",
+      "tail": "FAILED (failures=4)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "saturation fix ignores strength",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "chroma gate removed (greys detected)",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "luma gate removed",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "mask adds instead of restricting",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "no exact copy-back of untouched pixels",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "no mask softening",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "target offset ignored",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "hue window has no plateau",
+      "status": "caught",
+      "tail": "FAILED (failures=6)"
+    },
+    {
+      "file": "skin_tone.py",
+      "mutant": "luma not preserved (Y row touched)",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "amount-0 shortcut removed and ratio broken",
+      "status": "caught",
+      "tail": "FAILED (failures=4)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "box window off by one",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "box mean divides by full window at borders",
+      "status": "caught",
+      "tail": "FAILED (failures=6)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "guided filter eps dropped",
+      "status": "caught",
+      "tail": "FAILED (failures=7)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "guided filter b term wrong",
+      "status": "caught",
+      "tail": "FAILED (failures=3)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "midtone weight ignored",
+      "status": "caught",
+      "tail": "FAILED (failures=2)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "midtone focus ignored",
+      "status": "caught",
+      "tail": "FAILED (failures=3)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "luma weights Rec.601 instead of 709",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "additive instead of colour-preserving",
+      "status": "caught",
+      "tail": "SyntaxError: '(' was never closed"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "sign flipped",
+      "status": "caught",
+      "tail": "FAILED (failures=3)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "radius uses the longer side",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "clarity.py",
+      "mutant": "radius rounds down",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    }
+  ]
+}
