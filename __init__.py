@@ -28,6 +28,8 @@ from .ember_nodes import (
 )
 # Krea V3 (2026-09-16): Ember Speed HD Sampler replaces the last AIORBust node in the V3 graph.
 from .ember_nodes import speed_hd_sampler
+# Krea 2 carousel (2026-10-15): clean-room Ember nodes for the Krea V3 carousel workflow.
+from .ember_nodes import krea2_carousel, skin_tone, clarity
 
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}
@@ -37,7 +39,7 @@ WEB_DIRECTORY = "./js"
 
 for _mod in (h3_frame_snap, audio_switch, video_frame, face_mask,
              resolution_mp, save_image_no_metadata, camera_look, renoise, bbox_detector, detailer,
-             speed_hd_sampler):
+             speed_hd_sampler, krea2_carousel, skin_tone, clarity):
     NODE_CLASS_MAPPINGS.update(_mod.NODE_CLASS_MAPPINGS)
     NODE_DISPLAY_NAME_MAPPINGS.update(_mod.NODE_DISPLAY_NAME_MAPPINGS)
 

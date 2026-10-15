@@ -103,6 +103,74 @@ Result on 2026-09-16 (ComfyUI v0.34.6, torch 2.14.0, numpy 2.2.6, scipy 1.15.3, 
 1.8.0, the pod's versions): 755 checks, 0 mismatches, floor 0, 18/18 mutants caught
 (`tests/speed_hd_sampler/results/`).
 
+## Krea 2 carousel nodes (added 2026-10-15)
+
+Four nodes for the Krea 2 V3 carousel workflow: one master photo plus a pose list in, one edited
+image per pose out (Krea 2 + the Krea 2 Identity Edit LoRA + `comfyui-krea2edit`).
+
+**Clean-room.** These replace nodes from a proprietary pack whose licence forbids using its code or
+prompts for a competing product. They were written from the spec below (inputs, outputs, documented
+behaviour) using public methods and Ember's own wording. No code or prompt text from that pack was
+copied, and the pack was never run. They are tested against this spec, not against the originals.
+
+| Ember node (menu `Ember/…`) | Does |
+|---|---|
+| Ember Krea2 Pose List Prep `EmberKrea2PoseListPrep` | Validates and normalizes a pose list that Ember wrote |
+| Ember Krea2 Carousel Director `EmberKrea2CarouselDirector` | One Identity Edit instruction per pose (LIST output) + manifest + warnings |
+| Ember Skin Tone `EmberSkinTone` | Rotates skin hue onto the skin-tone line; luma untouched |
+| Ember Clarity `EmberClarity` | Edge-aware midtone local contrast; colour ratios kept |
+
+### Spec
+
+**Pose List Prep.** No vision model runs on the GPU worker: the Ember app writes the poses (its own
+model call on the master photo, or from pose photos the user uploads) and sends them as text.
+- Input `pose_list`: one pose per line, or JSON (`["…"]`, `[{"pose": "…"}]`, `{"poses": […]}`).
+  Bullets, numbering and "Slide 3:" labels are stripped, whitespace collapsed, blanks and
+  case-insensitive duplicates dropped, each pose capped at 300 characters (cut on a word).
+- `slide_count` 0 = one slide per pose (max 8); N = the first N. Asking for more than given is an
+  error unless `if_too_few` = "use what is there".
+- Outputs `pose_list` (one per line), `slide_count`, `report`.
+
+**Carousel Director.** Pure string compiler, no model.
+- Per pose: `[trigger, ]` "Show the same person from the reference photo in a new pose." + "Keep her
+  <locks> unchanged." + a camera sentence + "New pose: <pose>." + optional shoot direction +
+  optional extra text.
+- `continuity`: balanced = face, hair, skin tone, body shape, outfit; strong adds accessories,
+  makeup, location, lighting; maximum adds background details, colour grade, photo style.
+- `camera`: auto (angle suits the pose), locked (same position, lens, framing), free.
+- `edit_prompts` and `negative_prompts` (empty strings) are LIST outputs, so ComfyUI runs everything
+  downstream once per slide. Wire them to `Krea2EditGroundedEncode.prompt` (positive / negative).
+  `output_mode` "one slide" + `slide_index` re-rolls a single slide.
+- `pose_list_in` / `slide_count_in` (links, from Pose List Prep) override the widgets.
+  `master_image` is read only for its size (manifest) and to warn when missing.
+- `manifest` (JSON: slides, locks, recommended graph settings) and `report` (warnings when a pose
+  asks for something a lock forbids: outfit, location, hair, lighting, or a camera move under
+  "locked"). Warnings never block.
+
+**Skin Tone.** NTSC YIQ; skin of every complexion sits near the +I axis. Hue error to the target
+(+I + `target_offset_deg`); skin weight in two passes (find where this image's skin sits, then
+centre the hue window there) with chroma and luma gates, Gaussian-softened, optionally multiplied
+by `mask`. Rotation `d' = d - strength*w*(m + uniformity*(d - m))` (m = the skin's mean error);
+`saturation_fix` pulls skin chroma toward its mean. Only I/Q change. Pixels with zero weight come
+back bit-identical; `strength` 0 returns the input exactly. Outputs `image`, `skin_mask`.
+
+**Clarity.** Rec.709 luma; base = self-guided filter (He et al. 2010), radius =
+`radius_pct`% of the shorter side, eps = `edge_preserve`; `L' = L + amount*(L - base)*(4L(1-L))^midtone_focus`;
+RGB scaled by L'/L (colour ratios kept). `amount` 0 returns the input exactly; negative softens.
+
+### Tests
+
+```bash
+PYTHON=/path/to/comfyui/python tests/carousel_nodes/run.sh --mutants
+```
+
+59 spec tests (interface, exact prompt wording, parsing edge cases, list-output shape, maths on
+constructed YIQ colours, an independent re-implementation of the Clarity formula, exactness of
+untouched pixels, batch independence, alpha, dtype). `mutants.py` plants 44 single-point bugs and the
+tests must catch each one. Result on 2026-10-15: 59/59 pass on torch 2.10 and 2.14.1; 44/44 mutants
+caught. The workflow that uses them validated on ComfyUI v0.34.6 with no missing nodes
+(`botduster/krea2-t2i-serverless`, branch `feat/krea2-v3-carousel`). Not yet run on a GPU with the real model.
+
 ## Utility nodes
 
 | Node | Does |
