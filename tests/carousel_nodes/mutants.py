@@ -52,6 +52,9 @@ MUTANTS = [
      'if camera == "locked" and _CAMERA_MOVES.search(pose):', "if _CAMERA_MOVES.search(pose):"),
     ("krea2_carousel.py", "trigger not stripped", 'f"{trigger.strip()}, {lead}"', 'f"{trigger}, {lead}"'),
     ("krea2_carousel.py", "pose punctuation doubled", 'pose_text = pose.rstrip(".!? ")', "pose_text = pose"),
+    ("krea2_carousel.py", "cleaning not repeated (not idempotent)", "        if text == before:\n            break",
+     "        break"),
+    ("krea2_carousel.py", "slide seeds not offset per slide", '"seed": (int(seed) + i - 1)', '"seed": (int(seed) + 0 * i)'),
     ("krea2_carousel.py", "list output flags wrong", "OUTPUT_IS_LIST = (True, True, False",
      "OUTPUT_IS_LIST = (True, False, False"),
     # ---- Skin Tone

@@ -89,11 +89,16 @@ _CAMERA_MOVES = re.compile(
 # ---------------------------------------------------------------------------------------------------
 
 def _clean_pose(text):
-    text = str(text).replace(" ", " ")
-    text = _SLIDE_LABEL.sub("", text, count=1)
-    text = _BULLET.sub("", text, count=1)
-    text = re.sub(r"\s+", " ", text).strip().strip("\"'").strip()
-    text = text.rstrip(" ,;")
+    """Idempotent: prefixes are stripped until none is left, so cleaning an already-clean list (the
+    Director re-reads what Pose List Prep wrote) can never change it."""
+    text = re.sub(r"\s+", " ", str(text).replace("\u00a0", " ")).strip()
+    while True:
+        before = text
+        text = _SLIDE_LABEL.sub("", text, count=1)
+        text = _BULLET.sub("", text, count=1)
+        text = text.strip().strip("\"'").strip().rstrip(" ,;")
+        if text == before:
+            break
     if len(text) > MAX_POSE_CHARS:
         cut = text[:MAX_POSE_CHARS]
         space = cut.rfind(" ")
@@ -269,20 +274,23 @@ class EmberKrea2CarouselDirector:
                                                  "tooltip": "One line of direction shared by every slide."}),
                 "extra_prompt": ("STRING", {"multiline": True, "default": "",
                                             "tooltip": "Appended to every slide as written."}),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xFFFFFFFFFFFFFFFF,
+                                 "tooltip": "Base seed. slide_seeds = seed + slide number - 1, so each slide gets its own "
+                                            "noise and a one-slide re-roll with the same seed reproduces that slide."}),
             },
         }
 
-    RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING", "STRING", "INT", "INT")
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING", "STRING", "INT", "INT", "INT")
     RETURN_NAMES = ("edit_prompts", "negative_prompts", "selected_prompt", "manifest", "report",
-                    "slide_count", "selected_index")
-    OUTPUT_IS_LIST = (True, True, False, False, False, False, False)
+                    "slide_count", "selected_index", "slide_seeds")
+    OUTPUT_IS_LIST = (True, True, False, False, False, False, False, True)
     FUNCTION = "direct"
     CATEGORY = "Ember/Krea 2 Carousel"
     DESCRIPTION = "One Krea 2 Identity Edit instruction per pose (list output: one image per slide)."
 
     def direct(self, pose_list, slide_count, output_mode, slide_index, camera, continuity,
                pose_list_in=None, slide_count_in=None, master_image=None, character_trigger="",
-               session_direction="", extra_prompt=""):
+               session_direction="", extra_prompt="", seed=0):
         if output_mode not in OUTPUT_MODES:
             raise ValueError(f"unknown output_mode {output_mode!r}")
         text = pose_list_in if pose_list_in is not None else pose_list
@@ -300,7 +308,8 @@ class EmberKrea2CarouselDirector:
                                        session_direction, extra_prompt)
             conflicts = find_conflicts(pose, camera, continuity)
             warnings += [f"slide {i} {c}" for c in conflicts]
-            slides.append({"index": i, "pose": pose, "prompt": prompt, "warnings": conflicts})
+            slides.append({"index": i, "pose": pose, "prompt": prompt, "warnings": conflicts,
+                           "seed": (int(seed) + i - 1) % 0x10000000000000000})
 
         if not 1 <= slide_index <= total:
             if output_mode == "one slide":
@@ -313,6 +322,7 @@ class EmberKrea2CarouselDirector:
 
         chosen = slides if output_mode == "all slides" else [slides[selected - 1]]
         prompts = [s["prompt"] for s in chosen]
+        seeds = [s["seed"] for s in chosen]
         manifest = {
             "version": 1,
             "node": "EmberKrea2CarouselDirector",
@@ -334,7 +344,7 @@ class EmberKrea2CarouselDirector:
         lines += [f"- {n}" for n in notes]
         lines += [f"WARNING: {w}" for w in warnings]
         return (prompts, [""] * len(prompts), slides[selected - 1]["prompt"],
-                json.dumps(manifest, ensure_ascii=False, indent=2), "\n".join(lines), total, selected)
+                json.dumps(manifest, ensure_ascii=False, indent=2), "\n".join(lines), total, selected, seeds)
 
 
 NODE_CLASS_MAPPINGS = {

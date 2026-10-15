@@ -164,9 +164,10 @@ Widgets, in order:
 | 9 | `character_trigger` | STRING | default `` | optional |
 | 10 | `session_direction` | STRING | default `` | optional |
 | 11 | `extra_prompt` | STRING | default `` | optional |
+| 12 | `seed` | INT | default `0`; min 0; max 18446744073709551615 | optional |
 
 Link inputs: `master_image` (IMAGE, optional)
-Outputs: `edit_prompts` (STRING), `negative_prompts` (STRING), `selected_prompt` (STRING), `manifest` (STRING), `report` (STRING), `slide_count` (INT), `selected_index` (INT)
+Outputs: `edit_prompts` (STRING), `negative_prompts` (STRING), `selected_prompt` (STRING), `manifest` (STRING), `report` (STRING), `slide_count` (INT), `selected_index` (INT), `slide_seeds` (INT)
 
 ## `EmberSkinTone` - Ember Skin Tone
 

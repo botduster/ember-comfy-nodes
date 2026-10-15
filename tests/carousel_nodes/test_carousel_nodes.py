@@ -93,6 +93,17 @@ class TestPoseListPrep(unittest.TestCase):
         self.assertEqual(count, 5)
         self.assertIn("dropped duplicate: Standing by the WINDOW", report)
 
+    def test_stacked_prefixes_and_idempotence(self):
+        text = "- - sitting on bed\nsitting on bed\n1. 2) lying down\nlying down\nSlide 3: - standing"
+        poses, count, _ = self.node.prepare(text, 0)
+        self.assertEqual(poses.split("\n"), ["sitting on bed", "lying down", "standing"])
+        again, count2, _ = self.node.prepare(poses, 0)
+        self.assertEqual((again, count2), (poses, count))
+        # the Director re-reads Prep's output and must agree with its count
+        out = kc.EmberKrea2CarouselDirector().direct("", 1, "all slides", 1, "auto", "balanced",
+                                                      pose_list_in=poses, slide_count_in=count)
+        self.assertEqual(len(out[0]), count)
+
     def test_numbers_inside_a_pose_survive(self):
         poses, _, _ = self.node.prepare("holding 2 coffee cups\n3 steps from the door", 0)
         self.assertEqual(poses, "holding 2 coffee cups\n3 steps from the door")
@@ -168,11 +179,11 @@ class TestCarouselDirector(unittest.TestCase):
         self.assertEqual([n for _, n, _ in widgets(c)],
                          ["pose_list", "slide_count", "output_mode", "slide_index", "camera", "continuity",
                           "pose_list_in", "slide_count_in", "master_image", "character_trigger",
-                          "session_direction", "extra_prompt"])
+                          "session_direction", "extra_prompt", "seed"])
         self.assertEqual(c.RETURN_NAMES, ("edit_prompts", "negative_prompts", "selected_prompt", "manifest",
-                                          "report", "slide_count", "selected_index"))
+                                          "report", "slide_count", "selected_index", "slide_seeds"))
         self.assertEqual(len(c.OUTPUT_IS_LIST), len(c.RETURN_TYPES))
-        self.assertEqual(c.OUTPUT_IS_LIST, (True, True, False, False, False, False, False))
+        self.assertEqual(c.OUTPUT_IS_LIST, (True, True, False, False, False, False, False, True))
         req = c.INPUT_TYPES()["required"]
         self.assertEqual(req["camera"][0], ["auto", "locked", "free"])
         self.assertEqual(req["continuity"][0], ["balanced", "strong", "maximum"])
@@ -222,6 +233,15 @@ class TestCarouselDirector(unittest.TestCase):
         self.assertEqual(out["slide_count"], 4)
         with self.assertRaises(ValueError):
             self.run_node(output_mode="one slide", slide_index=5)
+
+    def test_slide_seeds(self):
+        out = self.run_node(seed=100)
+        self.assertEqual(out["slide_seeds"], [100, 101, 102, 103])
+        one = self.run_node(seed=100, output_mode="one slide", slide_index=3)
+        self.assertEqual(one["slide_seeds"], [102])   # re-roll with the same seed reproduces slide 3
+        self.assertEqual([s["seed"] for s in json.loads(out["manifest"])["slides"]], [100, 101, 102, 103])
+        top = self.run_node(seed=0xFFFFFFFFFFFFFFFF, slide_count=2)
+        self.assertEqual(top["slide_seeds"], [0xFFFFFFFFFFFFFFFF, 0])
 
     def test_out_of_range_index_in_all_mode_selects_first(self):
         out = self.run_node(slide_count=2, slide_index=7)

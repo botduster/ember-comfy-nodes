@@ -1,18 +1,18 @@
 {
-  "caught": 44,
-  "total": 44,
+  "caught": 46,
+  "total": 46,
   "mutants": [
     {
       "file": "krea2_carousel.py",
       "mutant": "bullets not stripped",
       "status": "caught",
-      "tail": "FAILED (failures=2)"
+      "tail": "FAILED (failures=3)"
     },
     {
       "file": "krea2_carousel.py",
       "mutant": "slide labels not stripped",
       "status": "caught",
-      "tail": "FAILED (failures=1)"
+      "tail": "FAILED (failures=2)"
     },
     {
       "file": "krea2_carousel.py",
@@ -54,13 +54,13 @@
       "file": "krea2_carousel.py",
       "mutant": "widget wins over linked pose list",
       "status": "caught",
-      "tail": "FAILED (errors=1)"
+      "tail": "FAILED (errors=2)"
     },
     {
       "file": "krea2_carousel.py",
       "mutant": "one-slide mode returns all",
       "status": "caught",
-      "tail": "FAILED (failures=1)"
+      "tail": "FAILED (failures=2)"
     },
     {
       "file": "krea2_carousel.py",
@@ -101,6 +101,18 @@
     {
       "file": "krea2_carousel.py",
       "mutant": "pose punctuation doubled",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "cleaning not repeated (not idempotent)",
+      "status": "caught",
+      "tail": "FAILED (failures=1)"
+    },
+    {
+      "file": "krea2_carousel.py",
+      "mutant": "slide seeds not offset per slide",
       "status": "caught",
       "tail": "FAILED (failures=1)"
     },

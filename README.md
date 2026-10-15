@@ -143,6 +143,9 @@ model call on the master photo, or from pose photos the user uploads) and sends 
   `output_mode` "one slide" + `slide_index` re-rolls a single slide.
 - `pose_list_in` / `slide_count_in` (links, from Pose List Prep) override the widgets.
   `master_image` is read only for its size (manifest) and to warn when missing.
+- `slide_seeds` (LIST) = `seed` + slide number - 1: wire it to RandomNoise.noise_seed so each slide gets
+  its own noise, and a one-slide re-roll with the same seed reproduces that slide (a new seed re-rolls it).
+- Pose cleaning is idempotent, so the Director re-reading Prep's output always agrees with Prep's count.
 - `manifest` (JSON: slides, locks, recommended graph settings) and `report` (warnings when a pose
   asks for something a lock forbids: outfit, location, hair, lighting, or a camera move under
   "locked"). Warnings never block.
@@ -164,10 +167,10 @@ RGB scaled by L'/L (colour ratios kept). `amount` 0 returns the input exactly; n
 PYTHON=/path/to/comfyui/python tests/carousel_nodes/run.sh --mutants
 ```
 
-59 spec tests (interface, exact prompt wording, parsing edge cases, list-output shape, maths on
+61 spec tests (interface, exact prompt wording, parsing edge cases, list-output shape, maths on
 constructed YIQ colours, an independent re-implementation of the Clarity formula, exactness of
-untouched pixels, batch independence, alpha, dtype). `mutants.py` plants 44 single-point bugs and the
-tests must catch each one. Result on 2026-10-15: 59/59 pass on torch 2.10 and 2.14.1; 44/44 mutants
+untouched pixels, batch independence, alpha, dtype). `mutants.py` plants 46 single-point bugs and the
+tests must catch each one. Result on 2026-10-15: 61/61 pass on torch 2.10 and 2.14.1; 46/46 mutants
 caught. The workflow that uses them validated on ComfyUI v0.34.6 with no missing nodes
 (`botduster/krea2-t2i-serverless`, branch `feat/krea2-v3-carousel`). Not yet run on a GPU with the real model.
 
