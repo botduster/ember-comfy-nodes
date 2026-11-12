@@ -7,7 +7,7 @@ is on all three branches.
 | Repo | Base | Head |
 |---|---|---|
 | botduster/krea2-t2i-serverless | `feat/refine-only` (a581504, rc13) | see PR |
-| botduster/ember-comfy-nodes | `main` (b284107) | b70b19f |
+| botduster/ember-comfy-nodes | `main` (b284107) | see PR (code commit pinned by krea2-t2i: b70b19f) |
 | botduster/ember-ai-web-generation | `main` (a5346bf) | see PR |
 | botduster/krea2-edit-serverless | not touched | – |
 
