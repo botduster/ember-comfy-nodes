@@ -30,6 +30,8 @@ from .ember_nodes import (
 from .ember_nodes import speed_hd_sampler
 # Krea 2 carousel (2026-10-15): clean-room Ember nodes for the Krea V3 carousel workflow.
 from .ember_nodes import krea2_carousel, skin_tone, clarity
+# Krea 2 quality (2026-11-12): phone output stages and the Realism Refiner's prompt-conditioning cache.
+from .ember_nodes import phone_finish, conditioning_cache
 
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}
@@ -39,7 +41,7 @@ WEB_DIRECTORY = "./js"
 
 for _mod in (h3_frame_snap, audio_switch, video_frame, face_mask,
              resolution_mp, save_image_no_metadata, camera_look, renoise, bbox_detector, detailer,
-             speed_hd_sampler, krea2_carousel, skin_tone, clarity):
+             speed_hd_sampler, krea2_carousel, skin_tone, clarity, phone_finish, conditioning_cache):
     NODE_CLASS_MAPPINGS.update(_mod.NODE_CLASS_MAPPINGS)
     NODE_DISPLAY_NAME_MAPPINGS.update(_mod.NODE_DISPLAY_NAME_MAPPINGS)
 
