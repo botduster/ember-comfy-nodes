@@ -9,7 +9,8 @@ shadows (a mask falling from 1 in black to 0 above the preset's shadow threshold
 because noise is most visible in the darks.
 
 grain_size changes the size of the grain, never its strength (the ISO preset sets
-strength). 1.0 draws noise per pixel. Above 1 it draws at reduced resolution and
+strength). grain_opacity (optional, default 1.0) scales the whole noise field before it
+is added; at 1.0 the code path is the original one, so outputs are bit-identical. 1.0 draws noise per pixel. Above 1 it draws at reduced resolution and
 upscales with nearest-neighbour. Below 1 it draws at higher resolution and
 area-averages down.
 
@@ -42,6 +43,7 @@ ISO_PRESETS = {
     "ISO 50":          (0.004, 0.002, 0.35, 1.2, 0.98),
     "ISO 100 (Clean)": (0.008, 0.005, 0.40, 1.5, 0.95),
     "ISO 200":         (0.012, 0.008, 0.45, 1.8, 0.90),
+    "ISO 300":         (0.015, 0.010, 0.48, 1.9, 0.88),  # 2026-11-12: lighter preset to A/B (Ember's own numbers)
     "ISO 400":         (0.018, 0.012, 0.50, 2.0, 0.85),
     "ISO 800":         (0.025, 0.016, 0.55, 2.5, 0.78),
     "ISO 1600":        (0.035, 0.025, 0.65, 3.0, 0.70),
@@ -87,6 +89,12 @@ class EmberRenoise:
                     "tooltip": "Grain size, not strength. 1.0 = per pixel, >1 = bigger grains, <1 = finer.",
                 }),
             },
+            "optional": {
+                "grain_opacity": ("FLOAT", {
+                    "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01,
+                    "tooltip": "How much of the grain is mixed in. 1.0 = the preset as is (unchanged output).",
+                }),
+            },
         }
 
     RETURN_TYPES = ("IMAGE",)
@@ -95,7 +103,7 @@ class EmberRenoise:
     CATEGORY = "Ember/Post-Processing"
     DESCRIPTION = "Seeded sensor grain: luma grain + chroma scatter, weighted toward shadows."
 
-    def renoise(self, image, seed, iso_preset, grain_size=1.0):
+    def renoise(self, image, seed, iso_preset, grain_size=1.0, grain_opacity=1.0):
         if not KORNIA_AVAILABLE:
             raise ImportError("Kornia is required. Install with: pip install kornia")
 
@@ -125,6 +133,8 @@ class EmberRenoise:
             weight = 1.0 - torch.clamp((luminance - shadow_threshold) / (1.0 - shadow_threshold + 1e-6), 0.0, 1.0)
             noise = noise * weight
 
+        if grain_opacity != 1.0:
+            noise = noise * float(grain_opacity)
         out = torch.clamp(img + noise, 0.0, 1.0)
         return (out.permute(0, 2, 3, 1).to(image.device),)
 

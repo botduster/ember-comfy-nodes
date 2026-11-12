@@ -53,6 +53,20 @@ bugs are all caught (`tests/resolution_preview/run.sh`, needs python3 + node).
 ⚠️ `EmberResolutionMP` changed on 2026-09-15: it now matches Aiorbust Resolution (MP)
 exactly (the earlier algorithm differed on ~19% of sizes and lacked 5:4 / 4:5).
 
+## Krea 2 quality nodes (added 2026-11-12)
+
+Clean-room (own code, own numbers except the published settings named below). Spec tests:
+`python3 tests/quality_nodes/test_quality_nodes.py` (torch + kornia, no ComfyUI).
+
+| Node | What it does | Default |
+|---|---|---|
+| Ember Renoise `EmberRenoise` | new preset **ISO 300** (between 200 and 400); new optional `grain_opacity` 0–1 scales the grain field | `grain_opacity` 1.0 = bit-identical to b284107 (test) |
+| Ember Phone Finish `EmberPhoneFinish` | phone HDR (`hdr_amount` 0.05), highlight clip (`clip_level` 0.97), chroma 4:2:0; each a switch | all off = the input is returned untouched |
+| Ember Conditioning Cache `EmberConditioningCache` | encodes a fixed prompt once per worker (disk + memory, `weights_only` load); `clip` is a lazy input, so a cache hit never loads the text encoder onto the GPU | n/a (only in graphs that opt in) |
+
+`cache_key` must name everything that shapes the encoding (encoder file, LoRAs on it and their
+strengths). Reference images are not cached: attach them after the node with core `ReferenceLatent`.
+
 ### Install on a RunPod pod
 
 ```bash
